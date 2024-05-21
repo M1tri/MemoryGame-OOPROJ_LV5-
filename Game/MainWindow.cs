@@ -1,4 +1,5 @@
 ﻿using Game.Slicice;
+using Game.Zvuci;
 using StartingWindow;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
@@ -15,40 +17,49 @@ using System.Windows.Forms;
 
 namespace Game
 {
-    public partial class GameWindow : Form
+    public partial class MainWindow : Form
     {
-        private int mRows;
-        private int mCols;
         private Button[][] mButtons;
         private MemoryGameInternal mGameInternal;
         private GameCell Selected = null;
 
-        public GameWindow(int rows = 6, int columns = 5, int emptys = 0, int images = 7)
+        private SoundPlayer mPogodakZvuk;
+        private SoundPlayer mPromasajZvuk;
+        private SoundPlayer mKrajIgreZvuk;
+
+        public MainWindow(int emptyCount = 0, int imageCount = 7)
         {
             InitializeComponent();
-            mRows = rows;
-            mCols = columns;
 
-            mButtons = new Button[mRows][];
-            for (int i = 0; i < rows; i++) 
-            {
-                mButtons[i] = new Button[mCols];
-            }
-
-            mGameInternal = new MemoryGameInternal(rows, columns, emptys, images);
-
-            PostaviDugmice();
+            mPogodakZvuk = new SoundPlayer(PogodakZvuk.correctSoundEf);
+            mPromasajZvuk = new SoundPlayer(PromasajZvuk.incorrectSoundEf);
+            mKrajIgreZvuk = new SoundPlayer(KrajIgreZvuk.gameEndedSoundEf_wav);
         }
 
-        private void PostaviDugmice()
+        private void PokreniIgru(int rows, int cols, int emptyCount, int imageCount)
         {
+            mGameInternal = new MemoryGameInternal(rows, cols, emptyCount, imageCount);
+            mGameInternal.GenerisiRandomIgru();
+
+            PanelDugmica.Controls.Clear();
+            PostaviDugmice(rows, cols);
+        }
+
+        private void PostaviDugmice(int rows, int cols)
+        {
+            mButtons = new Button[rows][];
+            for (int i = 0; i < rows; i++)
+            {
+                mButtons[i] = new Button[cols];
+            }
+
             int sirina = 100;
             int visina = 50;
             int razmak = 10;
 
-            for (int i = 0; i < mRows; i++)
+            for (int i = 0; i < rows; i++)
             {
-                for (int j = 0; j < mCols; j++)
+                for (int j = 0; j < cols; j++)
                 {
                     Button btn = new Button();
                     btn.Width = sirina;
@@ -92,6 +103,8 @@ namespace Game
                 celija.State = CELL_STATE.VISIBLE;
                 dugme.Image = celija.Content;
 
+                OtkrijDugme(dugme, celija);
+
                 if (PorediSlike(emptyIcon.Icon, celija.Content))
                     return;
 
@@ -100,46 +113,37 @@ namespace Game
                 if (Selected == null)
                 {
                     Selected = celija;
-                    dugme.FlatAppearance.BorderSize = 100;
-                    dugme.FlatAppearance.BorderColor = Color.Red;
-                    dugme.FlatAppearance.MouseDownBackColor = Color.Blue; 
-
                 }
                 else
                 {
                     if (!PorediSlike(Selected.Content, celija.Content))
                     {
-                        Selected.State = CELL_STATE.HIDDEN;
-                        mButtons[Selected.Xpos][Selected.Ypos].Image = unkownIcon.Icon;
+                        SakrijDugme(mButtons[Selected.PosX][Selected.PosY], Selected);
 
-                        celija.State = CELL_STATE.HIDDEN;
-                        mButtons[celija.Xpos][celija.Ypos].Image = unkownIcon.Icon;
+                        SakrijDugme(dugme, celija);
+
+                        mPromasajZvuk.Play();
+                    }
+                    else
+                    {
+                        mPogodakZvuk.Play();
                     }
 
                     Selected = null;
                 }
             }
-
-            if (IsOver())
-            {
-                MessageBox.Show("Kraj igre");
-                this.Close();
-            }
-
         }
 
-        public bool IsOver()
+        private void OtkrijDugme(Button dugme, GameCell celija)
         {
-            for (int i = 0; i < mRows; i++)
-            {
-                for (int j = 0; j < mCols; j++) 
-                {
-                    if (mGameInternal.GetCell(i, j).State == CELL_STATE.HIDDEN)
-                        return false;
-                }
-            }
+            celija.State = CELL_STATE.VISIBLE;
+            dugme.Image = celija.Content;
+        }
 
-            return true;
+        private void SakrijDugme(Button dugme, GameCell celija)
+        {
+            celija.State = CELL_STATE.HIDDEN;
+            dugme.Image = unkownIcon.Icon;
         }
 
         private static byte[] ImageToByteArray(System.Drawing.Image imageIn)
@@ -168,5 +172,31 @@ namespace Game
             return true;
         }
 
+        private void novaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            KreatorKonfiguracije kreatorKonfiguracije = new KreatorKonfiguracije();
+
+            kreatorKonfiguracije.Show();
+        }
+
+        private void ucitajToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            String fileName = null;
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                fileName = ofd.FileName;
+            }
+
+            Konfiguracija config = Konfiguracija.Ucitaj(fileName);
+
+            if (config == null) 
+            {
+                return;
+            }
+
+            PokreniIgru(config.Rows, config.Cols, config.EmptyCount, config.ImageCount);
+        }
     }
 }

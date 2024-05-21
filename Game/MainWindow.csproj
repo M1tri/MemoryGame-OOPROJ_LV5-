@@ -46,11 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameWindow.cs">
+    <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GameWindow.Designer.cs">
-      <DependentUpon>GameWindow.cs</DependentUpon>
+    <Compile Include="MainWindow.Designer.cs">
+      <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="MemoryGameInternal.cs" />
     <Compile Include="Program.cs" />
@@ -120,8 +120,23 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>unkownIcon.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="GameWindow.resx">
-      <DependentUpon>GameWindow.cs</DependentUpon>
+    <Compile Include="Zvuci\KrajIgreZvuk.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KrajIgreZvuk.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Zvuci\PogodakZvuk.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PogodakZvuk.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Zvuci\PromasajZvuk.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PromasajZvuk.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="MainWindow.resx">
+      <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -184,6 +199,18 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>unkownIcon.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Zvuci\KrajIgreZvuk.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>KrajIgreZvuk.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Zvuci\PogodakZvuk.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PogodakZvuk.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Zvuci\PromasajZvuk.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PromasajZvuk.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -238,6 +265,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\headphonesIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\correctSoundEf.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\incorrectSoundEf.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gameEndedSoundEf.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gameEndedSoundEf.wav.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StartingWindow\KreatorKonfiguracije.csproj">
+      <Project>{73afc9a0-a2fa-470e-85fc-37534a145659}</Project>
+      <Name>KreatorKonfiguracije</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

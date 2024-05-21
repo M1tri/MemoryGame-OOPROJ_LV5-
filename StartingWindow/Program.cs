@@ -16,7 +16,7 @@ namespace StartingWindow
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new StartingWindow());
+            Application.Run(new KreatorKonfiguracije());
         }
     }
 }

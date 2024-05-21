@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game", "Game\Game.csproj", "{14577A13-0364-43E5-937F-14E0A2D8EE63}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainWindow", "Game\MainWindow.csproj", "{14577A13-0364-43E5-937F-14E0A2D8EE63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StartingWindow", "StartingWindow\StartingWindow.csproj", "{73AFC9A0-A2FA-470E-85FC-37534A145659}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KreatorKonfiguracije", "StartingWindow\KreatorKonfiguracije.csproj", "{73AFC9A0-A2FA-470E-85FC-37534A145659}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
