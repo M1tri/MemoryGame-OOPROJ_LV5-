@@ -23,9 +23,20 @@ namespace StartingWindow
             int rows = (int)NumericRows.Value;
             int columns = (int)NumericColumns.Value;
             int emptys = (int)NumericEmptys.Value;
+            int images = (int)NumericBrSlika.Value;
 
-            GameWindow Igra = new GameWindow(rows, columns, emptys);
+            GameWindow Igra = new GameWindow(rows, columns, emptys, images);
             Igra.Show();
+        }
+
+        private void EmptySlotLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ColsLabel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

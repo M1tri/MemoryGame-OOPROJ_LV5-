@@ -23,7 +23,7 @@ namespace Game
         private MemoryGameInternal mGameInternal;
         private GameCell Selected = null;
 
-        public GameWindow(int rows = 6, int columns = 5, int emptys = 0)
+        public GameWindow(int rows = 6, int columns = 5, int emptys = 0, int images = 7)
         {
             InitializeComponent();
             mRows = rows;
@@ -35,7 +35,7 @@ namespace Game
                 mButtons[i] = new Button[mCols];
             }
 
-            mGameInternal = new MemoryGameInternal(rows, columns, emptys);
+            mGameInternal = new MemoryGameInternal(rows, columns, emptys, images);
 
             PostaviDugmice();
         }
@@ -100,6 +100,10 @@ namespace Game
                 if (Selected == null)
                 {
                     Selected = celija;
+                    dugme.FlatAppearance.BorderSize = 100;
+                    dugme.FlatAppearance.BorderColor = Color.Red;
+                    dugme.FlatAppearance.MouseDownBackColor = Color.Blue; 
+
                 }
                 else
                 {

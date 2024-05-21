@@ -65,10 +65,55 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>emptyIcon.resx</DependentUpon>
     </Compile>
+    <Compile Include="Slicice\fanIcon.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>fanIcon.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Slicice\gpuIcon.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>gpuIcon.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Slicice\hddIcon.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>hddIcon.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Slicice\headphoneIcon.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>headphoneIcon.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Slicice\keyboardIcon.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>keyboardIcon.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Slicice\monitorIcon.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>monitorIcon.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Slicice\mouseIcon.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>mouseIcon.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Slicice\psuIcon.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>psuIcon.resx</DependentUpon>
+    </Compile>
     <Compile Include="Slicice\ramIcon.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ramIcon.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Slicice\ssdIcon.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ssdIcon.resx</DependentUpon>
     </Compile>
     <Compile Include="Slicice\unkownIcon.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -95,9 +140,45 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>emptyIcon.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Slicice\fanIcon.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>fanIcon.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Slicice\gpuIcon.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>gpuIcon.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Slicice\hddIcon.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>hddIcon.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Slicice\headphoneIcon.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>headphoneIcon.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Slicice\keyboardIcon.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>keyboardIcon.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Slicice\monitorIcon.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>monitorIcon.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Slicice\mouseIcon.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>mouseIcon.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Slicice\psuIcon.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>psuIcon.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Slicice\ramIcon.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ramIcon.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Slicice\ssdIcon.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ssdIcon.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Slicice\unkownIcon.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -130,6 +211,33 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ramIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gpuIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\psuIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hddIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ssdIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\fanIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mouseIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\monitorIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\keyboardIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\headphonesIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

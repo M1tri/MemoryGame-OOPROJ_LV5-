@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using Game.Slicice;
 using System.Xml.XPath;
+using System.Reflection;
 
 namespace StartingWindow
 {
@@ -50,7 +51,12 @@ namespace StartingWindow
         private GameCell[][] mCells;
         private Random mRandomGenerator;
 
-        public MemoryGameInternal(int rows, int cols, int emptyCells)
+        private static Image[] Images = {cpuIcon.Icon, gpuIcon.Icon, ramIcon.Icon,
+                                  hddIcon.Icon, ssdIcon.Icon, psuIcon.Icon,
+                                  mouseIcon.Icon, monitorIcon.Icon, keyboardIcon.Icon,
+                                  fanIcon.Icon, headphoneIcon.Icon};
+
+        public MemoryGameInternal(int rows, int cols, int emptyCells, int images)
         {
             mRows = rows;
             mCols = cols;
@@ -89,16 +95,9 @@ namespace StartingWindow
                     if (mCells[i][j] != null)
                         continue;
 
-                    Image icon = null;
+                    int imadeIndex = mRandomGenerator.Next(0, images);
 
-                    if ((i + j) % 2 == 0)
-                    {
-                        icon = cpuIcon.Icon;
-                    }
-                    else
-                    {
-                        icon = ramIcon.Icon;
-                    }
+                    Image icon = Images[imadeIndex];
 
                     mCells[i][j] = new GameCell(i, j, icon);
 
