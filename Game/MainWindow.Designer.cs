@@ -105,12 +105,14 @@
             this.pokreniSacuvanuIgruToolStripMenuItem.Name = "pokreniSacuvanuIgruToolStripMenuItem";
             this.pokreniSacuvanuIgruToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
             this.pokreniSacuvanuIgruToolStripMenuItem.Text = "Pokreni sacuvanu igru";
+            this.pokreniSacuvanuIgruToolStripMenuItem.Click += new System.EventHandler(this.pokreniSacuvanuIgruToolStripMenuItem_Click);
             // 
             // sacuvajTrenutnuIgruToolStripMenuItem
             // 
             this.sacuvajTrenutnuIgruToolStripMenuItem.Name = "sacuvajTrenutnuIgruToolStripMenuItem";
             this.sacuvajTrenutnuIgruToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
             this.sacuvajTrenutnuIgruToolStripMenuItem.Text = "Sacuvaj trenutnu igru";
+            this.sacuvajTrenutnuIgruToolStripMenuItem.Click += new System.EventHandler(this.sacuvajTrenutnuIgruToolStripMenuItem_Click);
             // 
             // prekiniTrenutnuIgruToolStripMenuItem
             // 

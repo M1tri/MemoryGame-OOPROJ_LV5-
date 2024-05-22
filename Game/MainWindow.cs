@@ -57,6 +57,7 @@ namespace Game
             int visina = 50;
             int razmak = 10;
 
+            PanelDugmica.Controls.Clear();  
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < cols; j++)
@@ -101,11 +102,11 @@ namespace Game
             if (celija.State == CELL_STATE.HIDDEN)
             {
                 celija.State = CELL_STATE.VISIBLE;
-                dugme.Image = celija.Content;
+                dugme.Image = celija.GetImage();
 
                 OtkrijDugme(dugme, celija);
 
-                if (PorediSlike(emptyIcon.Icon, celija.Content))
+                if (PorediSlike(emptyIcon.Icon, celija.GetImage()))
                     return;
 
                 await Task.Delay(500);
@@ -116,7 +117,7 @@ namespace Game
                 }
                 else
                 {
-                    if (!PorediSlike(Selected.Content, celija.Content))
+                    if (!PorediSlike(Selected.GetImage(), celija.GetImage()))
                     {
                         SakrijDugme(mButtons[Selected.PosX][Selected.PosY], Selected);
 
@@ -137,7 +138,7 @@ namespace Game
         private void OtkrijDugme(Button dugme, GameCell celija)
         {
             celija.State = CELL_STATE.VISIBLE;
-            dugme.Image = celija.Content;
+            dugme.Image = celija.GetImage();
         }
 
         private void SakrijDugme(Button dugme, GameCell celija)
@@ -184,6 +185,9 @@ namespace Game
             OpenFileDialog ofd = new OpenFileDialog();
             String fileName = null;
 
+            ofd.Filter = "XML files (*.xml)|*.xml";
+            ofd.DefaultExt = ".xml";
+
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 fileName = ofd.FileName;
@@ -197,6 +201,64 @@ namespace Game
             }
 
             PokreniIgru(config.Rows, config.Cols, config.EmptyCount, config.ImageCount);
+        }
+
+        private void sacuvajTrenutnuIgruToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (mGameInternal == null)
+            {
+                return;
+            }
+
+            string fileName = null;
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+            saveFileDialog.Filter = "XML files (*.xml)|*.xml";
+            saveFileDialog.DefaultExt = ".xml";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                fileName = saveFileDialog.FileName;
+                mGameInternal.Sacuvaj(fileName);
+            }
+        }
+
+        private void pokreniSacuvanuIgruToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string fileName = null;
+
+            OpenFileDialog ofd = new OpenFileDialog();
+
+            ofd.Filter = "XML files (*.xml)|*.xml";
+            ofd.DefaultExt = ".xml";
+
+            if (ofd.ShowDialog() == DialogResult.OK) 
+            { 
+                fileName = ofd.FileName;
+            }
+            else
+            {
+                return;
+            }
+
+            mGameInternal = MemoryGameInternal.Ucitaj(fileName);
+
+            PostaviDugmice(mGameInternal.Rows, mGameInternal.Columns);
+
+            for (int i = 0; i < mGameInternal.Rows; i++)
+            {
+                for (int j = 0; j < mGameInternal.Columns; j++) 
+                {
+                    GameCell celija = mGameInternal.GetCell(i, j);
+
+                    if (celija.State == CELL_STATE.VISIBLE)
+                    {
+                        OtkrijDugme(mButtons[celija.PosX][celija.PosY], celija);
+                    }
+                }
+            }
+
         }
     }
 }

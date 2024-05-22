@@ -5,6 +5,8 @@ using System.Drawing;
 using Game.Slicice;
 using static System.Net.Mime.MediaTypeNames;
 using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace StartingWindow
 {
@@ -22,27 +24,28 @@ namespace StartingWindow
         private int posX;
         private int posY;
         private System.Drawing.Image content;
-        public int PosX 
-        { 
-            get { return posX; } 
+        public int PosX
+        {
+            get { return posX; }
             set { posX = value; }
         }
 
-        public int PosY 
-        { 
-            get { return posY; } 
+        public int PosY
+        {
+            get { return posY; }
             set { posY = value; }
         }
 
-        public CELL_STATE State 
-        { 
-            get { return state; } 
-            set { state = value; } 
+        public CELL_STATE State
+        {
+            get { return state; }
+            set { state = value; }
         }
 
-        public string Content { 
+        public string Content
+        {
 
-            get 
+            get
             {
                 if (content == null)
                     return null;
@@ -52,7 +55,7 @@ namespace StartingWindow
                     content.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
                     return Convert.ToBase64String(ms.ToArray());
                 }
-            } 
+            }
 
             set
             {
@@ -80,16 +83,56 @@ namespace StartingWindow
             else
                 this.content = content;
         }
+
+        public System.Drawing.Image GetImage()
+        {
+            return content;
+        }
+
+        public GameCell()
+        { }
     }
 
     [Serializable]
-    internal class MemoryGameInternal
+    public class GameCellList
     {
-        private int mRows;
-        private int mCols;
-        private int mEmptyCellCount;
-        private int mImageCount;
-        private GameCell[][] mCells;
+        private List<GameCell> cells;
+
+        public List<GameCell> Cells
+        {
+            get { return cells; } set { cells = value; }
+        }
+
+        public GameCellList(List<GameCell> cells)
+        {
+            this.cells = cells;
+        }
+
+        public GameCellList() {}
+
+        public GameCell GetCell(int i)
+        {
+            return cells[i];
+        }
+
+        public void setCell(GameCell celija, int i)
+        {
+            cells[i] = celija;
+        }
+
+    }
+
+    [Serializable]
+    public class MemoryGameInternal
+    {
+        private int rows;
+        private int cols;
+        private int emptyCellCount;
+        private int imageCount;
+        private List<GameCellList> cells;
+
+        private List<List<GameCell>> list;
+
         private Random mRandomGenerator;
 
         private static System.Drawing.Image[] Images = {cpuIcon.Icon, gpuIcon.Icon, ramIcon.Icon,
@@ -97,54 +140,93 @@ namespace StartingWindow
                                   mouseIcon.Icon, monitorIcon.Icon, keyboardIcon.Icon,
                                   fanIcon.Icon, headphoneIcon.Icon};
 
+        public int Rows
+        {
+            get { return rows; }
+            set { rows = value; }
+        }
+        public int Columns
+        {
+            get { return cols; }
+            set { cols = value; }
+        }
+        public int EmptyCellCount
+        {
+            get { return emptyCellCount; }
+            set { emptyCellCount = value; }
+        }
+        public int ImageCount
+        {
+            get { return imageCount; }
+            set { imageCount = value; }
+        }
+
+        public List<GameCellList> Cells
+        {
+            get { return cells;  } 
+            set { cells = value; }
+        }
+
         public MemoryGameInternal(int rows = 0, int cols = 0, int emptyCellCount = 0, int imageCount = 0)
         {
-            mRows = rows;
-            mCols = cols;
-            mEmptyCellCount = emptyCellCount;
-            mImageCount = imageCount;
+            this.rows = rows;
+            this.cols = cols;
+            this.emptyCellCount = emptyCellCount;
+            this.imageCount = imageCount;
             mRandomGenerator = new Random(DateTime.Now.Second);
+        }
+
+        public MemoryGameInternal() 
+        {
+            mRandomGenerator = new Random(DateTime.Now.Second);
+            cells = new List<GameCellList>();
         }
 
         public void GenerisiRandomIgru()
         {
-            if ((mRows * mCols - mEmptyCellCount) % 2 != 0)
+            if ((rows * cols - emptyCellCount) % 2 != 0)
             {
-                mEmptyCellCount++;
+                emptyCellCount++;
             }
 
-            mCells = new GameCell[mRows][];
-            for (int i = 0; i < mRows; i++)
+            cells = new List<GameCellList>(rows);
+            for (int i = 0; i < rows; i++)
             {
-                mCells[i] = new GameCell[mCols];
-            }
-
-            for (int i = 0; i < mEmptyCellCount; i++)
-            {
-                int indexI = mRandomGenerator.Next(0, mRows);
-                int indexJ = mRandomGenerator.Next(0, mCols);
-
-                while (mCells[indexI][indexJ] != null)
+                List<GameCell> vrsta = new List<GameCell>();
+                for (int k = 0; k < cols; k++)
                 {
-                    indexI = mRandomGenerator.Next(0, mRows);
-                    indexJ = mRandomGenerator.Next(0, mCols);
+                    vrsta.Add(null);
                 }
 
-                mCells[indexI][indexJ] = new GameCell(indexI, indexJ); // prazna celija
+                cells.Add(new GameCellList(vrsta));
+            }
+
+            for (int i = 0; i < emptyCellCount; i++)
+            {
+                int indexI = mRandomGenerator.Next(0, rows);
+                int indexJ = mRandomGenerator.Next(0, cols);
+
+                while (cells[indexI].GetCell(indexJ) != null)
+                {
+                    indexI = mRandomGenerator.Next(0, rows);
+                    indexJ = mRandomGenerator.Next(0, cols);
+                }
+
+                cells[indexI].setCell(new GameCell(indexI, indexJ), indexJ); // prazna celija
             }
 
             List<System.Drawing.Image> icons = new List<System.Drawing.Image>();
 
-            for (int i = 0; i < mRows; i++)
+            for (int i = 0; i < rows; i++)
             {
-                for (int j = 0; j < mCols; j++)
+                for (int j = 0; j < cols; j++)
                 {
-                    if (mCells[i][j] != null)
+                    if (cells[i].GetCell(j) != null)
                         continue;
 
                     if (icons.Count == 0)
                     {
-                        for (int k = 0; k < mImageCount; k++)
+                        for (int k = 0; k < imageCount; k++)
                         {
                             icons.Add(Images[k]);
                         }
@@ -157,18 +239,18 @@ namespace StartingWindow
                     if (icons.Count > 0)
                         icons.RemoveAt(icons.Count - 1);
 
-                    mCells[i][j] = new GameCell(i, j, icon);
+                    cells[i].setCell(new GameCell(i, j, icon), j);
 
-                    int indexI = mRandomGenerator.Next(0, mRows);
-                    int indexJ = mRandomGenerator.Next(0, mCols);
+                    int indexI = mRandomGenerator.Next(0, rows);
+                    int indexJ = mRandomGenerator.Next(0, cols);
 
-                    while (mCells[indexI][indexJ] != null)
+                    while (cells[indexI].GetCell(indexJ) != null)
                     {
-                        indexI = mRandomGenerator.Next(0, mRows);
-                        indexJ = mRandomGenerator.Next(0, mCols);
+                        indexI = mRandomGenerator.Next(0, rows);
+                        indexJ = mRandomGenerator.Next(0, cols);
                     }
 
-                    mCells[indexI][indexJ] = new GameCell(indexI, indexJ, icon);
+                    cells[indexI].setCell(new GameCell(indexI, indexJ, icon), indexJ);
                 }
             }
 
@@ -176,13 +258,13 @@ namespace StartingWindow
 
         public GameCell GetCell(int row, int col)
         {
-            if (row < 0 || row >= mRows)
+            if (row < 0 || row >= rows)
                 return null;
 
-            if (col < 0 || col >= mCols)
+            if (col < 0 || col >= cols)
                 return null;
 
-            return mCells[row][col];
+            return cells[row].GetCell(col);
         }
 
         private List<System.Drawing.Image> Promesaj(List<System.Drawing.Image> images)
@@ -204,5 +286,52 @@ namespace StartingWindow
 
             return images;
         }
+
+        public void Sacuvaj(string fileName)
+        {
+            XmlTextWriter wr = null;
+
+            try
+            {
+                wr = new XmlTextWriter(fileName, System.Text.Encoding.Unicode);
+                XmlSerializer sr = new XmlSerializer(typeof(MemoryGameInternal));
+
+                sr.Serialize(wr, this);
+            }
+            catch (Exception e) 
+            {
+                Console.WriteLine(e.ToString());
+            }
+            finally
+            {
+                wr.Close();
+            }
+        }
+
+        public static MemoryGameInternal Ucitaj(string fileName) 
+        {
+            StreamReader rd = null;
+            MemoryGameInternal igra = null;
+        
+            try
+            {
+                rd = new StreamReader(fileName);
+
+                XmlSerializer sr = new XmlSerializer(typeof(MemoryGameInternal));
+
+                igra = sr.Deserialize(rd) as MemoryGameInternal;
+            }
+            catch (Exception e) 
+            {
+                Console.WriteLine (e.ToString());
+            }
+            finally 
+            {
+                rd.Close();
+            }
+
+            return igra;
+        }
+
     }
 }
