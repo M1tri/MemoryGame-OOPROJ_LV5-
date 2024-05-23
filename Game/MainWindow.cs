@@ -31,7 +31,7 @@ namespace Game
 
         private void PokreniIgru(int rows, int cols, int emptyCount, int imageCount)
         {
-            mGameInternal = new MemoryGameInternal(rows, cols, emptyCount, imageCount);
+            mGameInternal = new MemoryGameInternal(rows, cols, emptyCount, imageCount, LabelaTajmer);
             mGameInternal.GenerisiRandomIgru();
 
             PanelDugmica.Controls.Clear();
@@ -60,7 +60,7 @@ namespace Game
                     btn.Height = visina;
                     btn.Top = (i * (sirina + razmak));
                     btn.Left = (j * (sirina + visina));
-                    btn.Image = Image.FromFile("C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\unkownIcon.png");
+                    btn.Image = Image.FromFile("C:\\Users\\Dimitrije\\Source\\Repos\\M1tri\\MemoryGame-OOPROJ_LV5-\\Game\\Resources\\unkownIcon.png");
                     btn.Click += DugmeStisnuto;
                     
                     btn.Tag = new Tuple<int, int>(i, j);
@@ -99,7 +99,7 @@ namespace Game
 
 
 
-                if (celija.ImagePath == "C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\emptyIcon.png")
+                if (celija.ImagePath == "C:\\Users\\Dimitrije\\Source\\Repos\\M1tri\\MemoryGame-OOPROJ_LV5-\\Game\\Resources\\emptyIcon.png")
                     return;
 
                 await Task.Delay(500);
@@ -136,7 +136,7 @@ namespace Game
         private void SakrijDugme(Button dugme, GameCell celija)
         {
             celija.State = CELL_STATE.HIDDEN;
-            dugme.Image = Image.FromFile("C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\unkownIcon.png");
+            dugme.Image = Image.FromFile("C:\\Users\\Dimitrije\\Source\\Repos\\M1tri\\MemoryGame-OOPROJ_LV5-\\Game\\Resources\\unkownIcon.png");
         }
 
         private void novaToolStripMenuItem_Click(object sender, EventArgs e)

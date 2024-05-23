@@ -7,6 +7,9 @@ using static System.Net.Mime.MediaTypeNames;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Windows.Forms;
+using System.Drawing.Imaging;
+using System.Globalization;
 
 namespace StartingWindow
 {
@@ -48,7 +51,7 @@ namespace StartingWindow
             set { imagePath = value; }
         }
 
-        public GameCell(int xPos, int yPos, string image = "C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\emptyIcon.png")
+        public GameCell(int xPos, int yPos, string image = "C:\\Users\\Dimitrije\\Source\\Repos\\M1tri\\MemoryGame-OOPROJ_LV5-\\Game\\Resources\\emptyIcon.png")
         {
             posX = xPos;
             posY = yPos;
@@ -96,6 +99,9 @@ namespace StartingWindow
         private int emptyCellCount;
         private int imageCount;
         private List<GameCellListWrapper> cells;
+        private Label labelaTajmerRef;
+        private Timer timer;
+        private DateTime sekunde;
 
         private List<List<GameCell>> list;
 
@@ -103,17 +109,17 @@ namespace StartingWindow
 
         private static string[] ImagePaths = {
 
-        "C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\cpuIcon.png",
-        "C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\gpuIcon.png",
-        "C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\ramIcon.png",
-        "C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\ssdIcon.png",
-        "C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\hddIcon.png",
-        "C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\keyboardIcon.png",
-        "C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\monitorIcon.png",
-        "C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\fanIcon.png",
-        "C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\psuIcon.png",
-        "C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\mouseIcon.png",
-        "C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\headphonesIcon.png"
+        "C:\\Users\\Dimitrije\\Source\\Repos\\M1tri\\MemoryGame-OOPROJ_LV5-\\Game\\Resources\\cpuIcon.png",
+        "C:\\Users\\Dimitrije\\Source\\Repos\\M1tri\\MemoryGame-OOPROJ_LV5-\\Game\\Resources\\gpuIcon.png",
+        "C:\\Users\\Dimitrije\\Source\\Repos\\M1tri\\MemoryGame-OOPROJ_LV5-\\Game\\Resources\\ramIcon.png",
+        "C:\\Users\\Dimitrije\\Source\\Repos\\M1tri\\MemoryGame-OOPROJ_LV5-\\Game\\Resources\\ssdIcon.png",
+        "C:\\Users\\Dimitrije\\Source\\Repos\\M1tri\\MemoryGame-OOPROJ_LV5-\\Game\\Resources\\hddIcon.png",
+        "C:\\Users\\Dimitrije\\Source\\Repos\\M1tri\\MemoryGame-OOPROJ_LV5-\\Game\\Resources\\keyboardIcon.png",
+        "C:\\Users\\Dimitrije\\Source\\Repos\\M1tri\\MemoryGame-OOPROJ_LV5-\\Game\\Resources\\monitorIcon.png",
+        "C:\\Users\\Dimitrije\\Source\\Repos\\M1tri\\MemoryGame-OOPROJ_LV5-\\Game\\Resources\\fanIcon.png",
+        "C:\\Users\\Dimitrije\\Source\\Repos\\M1tri\\MemoryGame-OOPROJ_LV5-\\Game\\Resources\\psuIcon.png",
+        "C:\\Users\\Dimitrije\\Source\\Repos\\M1tri\\MemoryGame-OOPROJ_LV5-\\Game\\Resources\\mouseIcon.png",
+        "C:\\Users\\Dimitrije\\Source\\Repos\\M1tri\\MemoryGame-OOPROJ_LV5-\\Game\\Resources\\headphonesIcon.png"
 
         };
 
@@ -144,14 +150,47 @@ namespace StartingWindow
             get { return cells;  } 
             set { cells = value; }
         }
+        
+        public string Sekunde
+        {
+            get { return sekunde.ToString(); }
+            set { sekunde = DateTime.ParseExact(value, "HH::mm::ss", CultureInfo.InvariantCulture); }
+        }
 
-        public MemoryGameInternal(int rows = 0, int cols = 0, int emptyCellCount = 0, int imageCount = 0)
+        [XmlIgnore]
+        private Label LabelaTajmerRef { set { labelaTajmerRef = value; } }
+
+        public MemoryGameInternal(int rows = 0, int cols = 0, int emptyCellCount = 0, int imageCount = 0, Label labelaTajmer = null)
         {
             this.rows = rows;
             this.cols = cols;
             this.emptyCellCount = emptyCellCount;
             this.imageCount = imageCount;
             mRandomGenerator = new Random(DateTime.Now.Second);
+            labelaTajmerRef = labelaTajmer;
+            timer = new Timer
+            {
+                Interval = 1000
+            };
+            timer.Tick += OkinuoTajmer;
+            sekunde = new DateTime();
+            sekunde = DateTime.ParseExact("00::00::00", "HH::mm::ss", CultureInfo.InvariantCulture);
+        }
+
+        public void PokreniTajmer()
+        {
+            timer.Start();
+        }
+        public void ZaustaviTajmer()
+        {
+            timer.Stop();
+        }
+
+
+        private void OkinuoTajmer(object sender, EventArgs e)
+        {
+            sekunde = sekunde.AddSeconds(1);
+            labelaTajmerRef.Text = sekunde.ToString("HH::mm::ss");
         }
 
         public MemoryGameInternal() 
@@ -233,6 +272,7 @@ namespace StartingWindow
                 }
             }
 
+            PokreniTajmer();
         }
         public GameCell GetCell(int row, int col)
         {

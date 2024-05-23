@@ -37,25 +37,28 @@
             this.pokreniSacuvanuIgruToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sacuvajTrenutnuIgruToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.prekiniTrenutnuIgruToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.LabelaTajmer = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // PanelDugmica
             // 
             this.PanelDugmica.AutoScroll = true;
-            this.PanelDugmica.Location = new System.Drawing.Point(13, 32);
+            this.PanelDugmica.Location = new System.Drawing.Point(21, 71);
+            this.PanelDugmica.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.PanelDugmica.Name = "PanelDugmica";
-            this.PanelDugmica.Size = new System.Drawing.Size(775, 406);
+            this.PanelDugmica.Size = new System.Drawing.Size(1033, 500);
             this.PanelDugmica.TabIndex = 0;
             // 
             // menuStrip1
             // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.konfiguracijeToolStripMenuItem,
             this.igraToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1067, 30);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -64,13 +67,13 @@
             this.konfiguracijeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.novaToolStripMenuItem});
             this.konfiguracijeToolStripMenuItem.Name = "konfiguracijeToolStripMenuItem";
-            this.konfiguracijeToolStripMenuItem.Size = new System.Drawing.Size(89, 20);
+            this.konfiguracijeToolStripMenuItem.Size = new System.Drawing.Size(111, 26);
             this.konfiguracijeToolStripMenuItem.Text = "Konfiguracije";
             // 
             // novaToolStripMenuItem
             // 
             this.novaToolStripMenuItem.Name = "novaToolStripMenuItem";
-            this.novaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.novaToolStripMenuItem.Size = new System.Drawing.Size(127, 26);
             this.novaToolStripMenuItem.Text = "Nova";
             this.novaToolStripMenuItem.Click += new System.EventHandler(this.novaToolStripMenuItem_Click);
             // 
@@ -82,44 +85,55 @@
             this.sacuvajTrenutnuIgruToolStripMenuItem,
             this.prekiniTrenutnuIgruToolStripMenuItem});
             this.igraToolStripMenuItem.Name = "igraToolStripMenuItem";
-            this.igraToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.igraToolStripMenuItem.Size = new System.Drawing.Size(49, 26);
             this.igraToolStripMenuItem.Text = "Igra";
             // 
             // pokreniKonfiguracijuToolStripMenuItem
             // 
             this.pokreniKonfiguracijuToolStripMenuItem.Name = "pokreniKonfiguracijuToolStripMenuItem";
-            this.pokreniKonfiguracijuToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.pokreniKonfiguracijuToolStripMenuItem.Size = new System.Drawing.Size(234, 26);
             this.pokreniKonfiguracijuToolStripMenuItem.Text = "Pokreni konfiguraciju";
             this.pokreniKonfiguracijuToolStripMenuItem.Click += new System.EventHandler(this.pokreniKonfiguracijuToolStripMenuItem_Click);
             // 
             // pokreniSacuvanuIgruToolStripMenuItem
             // 
             this.pokreniSacuvanuIgruToolStripMenuItem.Name = "pokreniSacuvanuIgruToolStripMenuItem";
-            this.pokreniSacuvanuIgruToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.pokreniSacuvanuIgruToolStripMenuItem.Size = new System.Drawing.Size(234, 26);
             this.pokreniSacuvanuIgruToolStripMenuItem.Text = "Pokreni sacuvanu igru";
             this.pokreniSacuvanuIgruToolStripMenuItem.Click += new System.EventHandler(this.pokreniSacuvanuIgruToolStripMenuItem_Click);
             // 
             // sacuvajTrenutnuIgruToolStripMenuItem
             // 
             this.sacuvajTrenutnuIgruToolStripMenuItem.Name = "sacuvajTrenutnuIgruToolStripMenuItem";
-            this.sacuvajTrenutnuIgruToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.sacuvajTrenutnuIgruToolStripMenuItem.Size = new System.Drawing.Size(234, 26);
             this.sacuvajTrenutnuIgruToolStripMenuItem.Text = "Sacuvaj trenutnu igru";
             this.sacuvajTrenutnuIgruToolStripMenuItem.Click += new System.EventHandler(this.sacuvajTrenutnuIgruToolStripMenuItem_Click);
             // 
             // prekiniTrenutnuIgruToolStripMenuItem
             // 
             this.prekiniTrenutnuIgruToolStripMenuItem.Name = "prekiniTrenutnuIgruToolStripMenuItem";
-            this.prekiniTrenutnuIgruToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.prekiniTrenutnuIgruToolStripMenuItem.Size = new System.Drawing.Size(234, 26);
             this.prekiniTrenutnuIgruToolStripMenuItem.Text = "Prekini trenutnu igru";
+            // 
+            // LabelaTajmer
+            // 
+            this.LabelaTajmer.AutoSize = true;
+            this.LabelaTajmer.Location = new System.Drawing.Point(21, 32);
+            this.LabelaTajmer.Name = "LabelaTajmer";
+            this.LabelaTajmer.Size = new System.Drawing.Size(61, 16);
+            this.LabelaTajmer.TabIndex = 2;
+            this.LabelaTajmer.Text = "00::00::00";
             // 
             // MainWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1067, 618);
+            this.Controls.Add(this.LabelaTajmer);
             this.Controls.Add(this.PanelDugmica);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "MainWindow";
             this.Text = "Memory Game";
             this.menuStrip1.ResumeLayout(false);
@@ -140,5 +154,6 @@
         private System.Windows.Forms.ToolStripMenuItem pokreniSacuvanuIgruToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sacuvajTrenutnuIgruToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem prekiniTrenutnuIgruToolStripMenuItem;
+        private System.Windows.Forms.Label LabelaTajmer;
     }
 }
