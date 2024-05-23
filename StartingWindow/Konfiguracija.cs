@@ -18,19 +18,16 @@ namespace StartingWindow
             get { return rows; }
             set { rows = value; }
         }
-         
         public int Cols
         {
             get { return cols; }
             set { cols = value; }
         }
-
         public int ImageCount
         {
             get { return imageCount; }
             set { imageCount = value; }
         }
-
         public int EmptyCount
         {
             get { return emptyCount; }
@@ -88,7 +85,8 @@ namespace StartingWindow
             }
             finally
             {
-                rd.Close();
+                if (rd != null)
+                    rd.Close();
             }
 
             return config;

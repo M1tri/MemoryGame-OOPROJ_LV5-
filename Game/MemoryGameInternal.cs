@@ -23,7 +23,7 @@ namespace StartingWindow
         private CELL_STATE state;
         private int posX;
         private int posY;
-        private System.Drawing.Image content;
+        private string imagePath;
         public int PosX
         {
             get { return posX; }
@@ -42,51 +42,17 @@ namespace StartingWindow
             set { state = value; }
         }
 
-        public string Content
+        public string ImagePath
         {
-
-            get
-            {
-                if (content == null)
-                    return null;
-
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    content.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                    return Convert.ToBase64String(ms.ToArray());
-                }
-            }
-
-            set
-            {
-                if (string.IsNullOrEmpty(value))
-                {
-                    content = null;
-                    return;
-                }
-
-                byte[] bytes = Convert.FromBase64String(value);
-                using (MemoryStream ms = new MemoryStream(bytes))
-                {
-                    content = System.Drawing.Image.FromStream(ms);
-                }
-            }
+            get { return imagePath; }
+            set { imagePath = value; }
         }
 
-        public GameCell(int xPos, int yPos, System.Drawing.Image content = null)
+        public GameCell(int xPos, int yPos, string image = "C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\emptyIcon.png")
         {
             posX = xPos;
             posY = yPos;
-
-            if (content == null)
-                this.content = emptyIcon.Icon;
-            else
-                this.content = content;
-        }
-
-        public System.Drawing.Image GetImage()
-        {
-            return content;
+            imagePath = image;
         }
 
         public GameCell()
@@ -94,7 +60,7 @@ namespace StartingWindow
     }
 
     [Serializable]
-    public class GameCellList
+    public class GameCellListWrapper
     {
         private List<GameCell> cells;
 
@@ -103,12 +69,12 @@ namespace StartingWindow
             get { return cells; } set { cells = value; }
         }
 
-        public GameCellList(List<GameCell> cells)
+        public GameCellListWrapper(List<GameCell> cells)
         {
             this.cells = cells;
         }
 
-        public GameCellList() {}
+        public GameCellListWrapper() {}
 
         public GameCell GetCell(int i)
         {
@@ -129,16 +95,27 @@ namespace StartingWindow
         private int cols;
         private int emptyCellCount;
         private int imageCount;
-        private List<GameCellList> cells;
+        private List<GameCellListWrapper> cells;
 
         private List<List<GameCell>> list;
 
         private Random mRandomGenerator;
 
-        private static System.Drawing.Image[] Images = {cpuIcon.Icon, gpuIcon.Icon, ramIcon.Icon,
-                                  hddIcon.Icon, ssdIcon.Icon, psuIcon.Icon,
-                                  mouseIcon.Icon, monitorIcon.Icon, keyboardIcon.Icon,
-                                  fanIcon.Icon, headphoneIcon.Icon};
+        private static string[] ImagePaths = {
+
+        "C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\cpuIcon.png",
+        "C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\gpuIcon.png",
+        "C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\ramIcon.png",
+        "C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\ssdIcon.png",
+        "C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\hddIcon.png",
+        "C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\keyboardIcon.png",
+        "C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\monitorIcon.png",
+        "C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\fanIcon.png",
+        "C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\psuIcon.png",
+        "C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\mouseIcon.png",
+        "C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\headphonesIcon.png"
+
+        };
 
         public int Rows
         {
@@ -155,13 +132,14 @@ namespace StartingWindow
             get { return emptyCellCount; }
             set { emptyCellCount = value; }
         }
+
         public int ImageCount
         {
             get { return imageCount; }
             set { imageCount = value; }
         }
 
-        public List<GameCellList> Cells
+        public List<GameCellListWrapper> Cells
         {
             get { return cells;  } 
             set { cells = value; }
@@ -179,7 +157,7 @@ namespace StartingWindow
         public MemoryGameInternal() 
         {
             mRandomGenerator = new Random(DateTime.Now.Second);
-            cells = new List<GameCellList>();
+            cells = new List<GameCellListWrapper>();
         }
 
         public void GenerisiRandomIgru()
@@ -189,7 +167,7 @@ namespace StartingWindow
                 emptyCellCount++;
             }
 
-            cells = new List<GameCellList>(rows);
+            cells = new List<GameCellListWrapper>(rows);
             for (int i = 0; i < rows; i++)
             {
                 List<GameCell> vrsta = new List<GameCell>();
@@ -198,7 +176,7 @@ namespace StartingWindow
                     vrsta.Add(null);
                 }
 
-                cells.Add(new GameCellList(vrsta));
+                cells.Add(new GameCellListWrapper(vrsta));
             }
 
             for (int i = 0; i < emptyCellCount; i++)
@@ -215,7 +193,7 @@ namespace StartingWindow
                 cells[indexI].setCell(new GameCell(indexI, indexJ), indexJ); // prazna celija
             }
 
-            List<System.Drawing.Image> icons = new List<System.Drawing.Image>();
+            List<string> slike = new List<string>();
 
             for (int i = 0; i < rows; i++)
             {
@@ -224,22 +202,23 @@ namespace StartingWindow
                     if (cells[i].GetCell(j) != null)
                         continue;
 
-                    if (icons.Count == 0)
+                    if (slike.Count == 0)
                     {
                         for (int k = 0; k < imageCount; k++)
                         {
-                            icons.Add(Images[k]);
+                            slike.Add(ImagePaths[k]);
                         }
 
-                        icons = Promesaj(icons);
+                        slike = Promesaj(slike);
                     }
 
-                    System.Drawing.Image icon = icons.Last();
+                    string imagePath = slike.Last();
+                    slike.RemoveAt(slike.Count - 1);
 
-                    if (icons.Count > 0)
-                        icons.RemoveAt(icons.Count - 1);
+                    if (slike.Count > 0)
+                        slike.RemoveAt(slike.Count - 1);
 
-                    cells[i].setCell(new GameCell(i, j, icon), j);
+                    cells[i].setCell(new GameCell(i, j, imagePath), j);
 
                     int indexI = mRandomGenerator.Next(0, rows);
                     int indexJ = mRandomGenerator.Next(0, cols);
@@ -250,12 +229,11 @@ namespace StartingWindow
                         indexJ = mRandomGenerator.Next(0, cols);
                     }
 
-                    cells[indexI].setCell(new GameCell(indexI, indexJ, icon), indexJ);
+                    cells[indexI].setCell(new GameCell(indexI, indexJ, imagePath), indexJ);
                 }
             }
 
         }
-
         public GameCell GetCell(int row, int col)
         {
             if (row < 0 || row >= rows)
@@ -267,7 +245,7 @@ namespace StartingWindow
             return cells[row].GetCell(col);
         }
 
-        private List<System.Drawing.Image> Promesaj(List<System.Drawing.Image> images)
+        private List<string> Promesaj(List<string> images)
         {
             int len = images.Count;
             int k = len;
@@ -277,7 +255,7 @@ namespace StartingWindow
                 int i = mRandomGenerator.Next(len);
                 int j = mRandomGenerator.Next(len);
 
-                System.Drawing.Image pom = images[i];
+                string pom = images[i];
                 images[i] = images[j];
                 images[j] = pom;
 

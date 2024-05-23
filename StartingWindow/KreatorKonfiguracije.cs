@@ -15,6 +15,17 @@ namespace StartingWindow
         public KreatorKonfiguracije()
         {
             InitializeComponent();
+
+
+            Konfiguracija config = Konfiguracija.Ucitaj("config.xml");
+
+            if (config != null)
+            {
+                NumericRows.Value = config.Rows;
+                NumericColumns.Value = config.Cols;
+                NumericEmptys.Value = config.EmptyCount;
+                NumericBrSlika.Value = config.ImageCount;
+            }
         }
 
         private void NumericEmptys_ValueChanged_1(object sender, EventArgs e)
@@ -46,17 +57,11 @@ namespace StartingWindow
             
             Konfiguracija config = new Konfiguracija(rows, columns, images, emptys);
 
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "XML files (*.xml)|*.xml";
-            saveFileDialog.DefaultExt = ".xml";
+            string fileName = "config.xml";
+            config.Sacuvaj(fileName);
 
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                string fileName = saveFileDialog.FileName;
-
-                config.Sacuvaj(fileName);
-            }
-
+            MessageBox.Show("Konfiguracija je sacuvana", "Obavestenje", MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
         }
     }
 }

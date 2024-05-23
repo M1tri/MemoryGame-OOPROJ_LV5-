@@ -2,16 +2,9 @@
 using Game.Zvuci;
 using StartingWindow;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Media;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -67,7 +60,7 @@ namespace Game
                     btn.Height = visina;
                     btn.Top = (i * (sirina + razmak));
                     btn.Left = (j * (sirina + visina));
-                    btn.Image = unkownIcon.Icon;
+                    btn.Image = Image.FromFile("C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\unkownIcon.png");
                     btn.Click += DugmeStisnuto;
                     
                     btn.Tag = new Tuple<int, int>(i, j);
@@ -77,7 +70,6 @@ namespace Game
                 }
             }
         }
-
         private async void DugmeStisnuto(object sender, EventArgs e)
         {
             Button dugme = sender as Button;
@@ -102,11 +94,12 @@ namespace Game
             if (celija.State == CELL_STATE.HIDDEN)
             {
                 celija.State = CELL_STATE.VISIBLE;
-                dugme.Image = celija.GetImage();
-
+                dugme.Image = Image.FromFile(celija.ImagePath);
                 OtkrijDugme(dugme, celija);
 
-                if (PorediSlike(emptyIcon.Icon, celija.GetImage()))
+
+
+                if (celija.ImagePath == "C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\emptyIcon.png")
                     return;
 
                 await Task.Delay(500);
@@ -117,7 +110,7 @@ namespace Game
                 }
                 else
                 {
-                    if (!PorediSlike(Selected.GetImage(), celija.GetImage()))
+                    if (Selected.ImagePath != celija.ImagePath)
                     {
                         SakrijDugme(mButtons[Selected.PosX][Selected.PosY], Selected);
 
@@ -134,43 +127,16 @@ namespace Game
                 }
             }
         }
-
         private void OtkrijDugme(Button dugme, GameCell celija)
         {
             celija.State = CELL_STATE.VISIBLE;
-            dugme.Image = celija.GetImage();
+            dugme.Image = Image.FromFile(celija.ImagePath);
         }
 
         private void SakrijDugme(Button dugme, GameCell celija)
         {
             celija.State = CELL_STATE.HIDDEN;
-            dugme.Image = unkownIcon.Icon;
-        }
-
-        private static byte[] ImageToByteArray(System.Drawing.Image imageIn)
-        {
-            using (var ms = new MemoryStream())
-            {
-                imageIn.Save(ms, imageIn.RawFormat);
-                return ms.ToArray();
-            }
-        }
-        
-        private static bool PorediSlike(Image slika1, Image slika2)
-        {
-            byte[] slika1Bajtovi = ImageToByteArray(slika1);
-            byte[] slika2Bajtovi = ImageToByteArray(slika2);
-
-            if (slika1Bajtovi.Length != slika2Bajtovi.Length)
-                return false;
-
-            for (int i = 0; i < slika1Bajtovi.Length; i++) 
-            {
-                if (slika1Bajtovi[i] != slika2Bajtovi[i])
-                    return false;
-            }
-
-            return true;
+            dugme.Image = Image.FromFile("C:\\Users\\Dimitrije\\source\\repos\\MemoryGame(OOPROJ_LV5)\\Game\\Resources\\unkownIcon.png");
         }
 
         private void novaToolStripMenuItem_Click(object sender, EventArgs e)
@@ -178,29 +144,6 @@ namespace Game
             KreatorKonfiguracije kreatorKonfiguracije = new KreatorKonfiguracije();
 
             kreatorKonfiguracije.Show();
-        }
-
-        private void ucitajToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog ofd = new OpenFileDialog();
-            String fileName = null;
-
-            ofd.Filter = "XML files (*.xml)|*.xml";
-            ofd.DefaultExt = ".xml";
-
-            if (ofd.ShowDialog() == DialogResult.OK)
-            {
-                fileName = ofd.FileName;
-            }
-
-            Konfiguracija config = Konfiguracija.Ucitaj(fileName);
-
-            if (config == null) 
-            {
-                return;
-            }
-
-            PokreniIgru(config.Rows, config.Cols, config.EmptyCount, config.ImageCount);
         }
 
         private void sacuvajTrenutnuIgruToolStripMenuItem_Click(object sender, EventArgs e)
@@ -223,7 +166,6 @@ namespace Game
                 mGameInternal.Sacuvaj(fileName);
             }
         }
-
         private void pokreniSacuvanuIgruToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string fileName = null;
@@ -259,6 +201,17 @@ namespace Game
                 }
             }
 
+        }
+        private void pokreniKonfiguracijuToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Konfiguracija config = Konfiguracija.Ucitaj("config.xml");
+
+            if (config == null)
+            {
+                return;
+            }
+
+            PokreniIgru(config.Rows, config.Cols, config.EmptyCount, config.ImageCount);
         }
     }
 }

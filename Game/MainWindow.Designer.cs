@@ -32,7 +32,6 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.konfiguracijeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.novaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ucitajToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.igraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pokreniKonfiguracijuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pokreniSacuvanuIgruToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,8 +62,7 @@
             // konfiguracijeToolStripMenuItem
             // 
             this.konfiguracijeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.novaToolStripMenuItem,
-            this.ucitajToolStripMenuItem});
+            this.novaToolStripMenuItem});
             this.konfiguracijeToolStripMenuItem.Name = "konfiguracijeToolStripMenuItem";
             this.konfiguracijeToolStripMenuItem.Size = new System.Drawing.Size(89, 20);
             this.konfiguracijeToolStripMenuItem.Text = "Konfiguracije";
@@ -75,13 +73,6 @@
             this.novaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.novaToolStripMenuItem.Text = "Nova";
             this.novaToolStripMenuItem.Click += new System.EventHandler(this.novaToolStripMenuItem_Click);
-            // 
-            // ucitajToolStripMenuItem
-            // 
-            this.ucitajToolStripMenuItem.Name = "ucitajToolStripMenuItem";
-            this.ucitajToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.ucitajToolStripMenuItem.Text = "Ucitaj";
-            this.ucitajToolStripMenuItem.Click += new System.EventHandler(this.ucitajToolStripMenuItem_Click);
             // 
             // igraToolStripMenuItem
             // 
@@ -99,6 +90,7 @@
             this.pokreniKonfiguracijuToolStripMenuItem.Name = "pokreniKonfiguracijuToolStripMenuItem";
             this.pokreniKonfiguracijuToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
             this.pokreniKonfiguracijuToolStripMenuItem.Text = "Pokreni konfiguraciju";
+            this.pokreniKonfiguracijuToolStripMenuItem.Click += new System.EventHandler(this.pokreniKonfiguracijuToolStripMenuItem_Click);
             // 
             // pokreniSacuvanuIgruToolStripMenuItem
             // 
@@ -143,7 +135,6 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem konfiguracijeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem novaToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ucitajToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem igraToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pokreniKonfiguracijuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pokreniSacuvanuIgruToolStripMenuItem;
